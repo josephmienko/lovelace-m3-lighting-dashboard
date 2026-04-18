@@ -1,0 +1,20 @@
+type: custom:m3-lighting-dashboard
+title: Lighting
+subtitle: Upstairs + downstairs
+areas:
+  - title: Kitchen
+    icon: mdi:chef-hat
+    expanded: true
+    entities:
+      - entity: light.kitchen
+        name: Kitchen Lights
+        icon: mdi:lightbulb
+      - entity: switch.kitchen_cabinets
+        name: Cabinet Lights
+        icon: mdi:light-strip
+  - title: Bedroom
+    icon: mdi:bed
+    entities:
+      - entity: light.bedroom
+        name: Bedroom Lamp
+        icon: mdi:lamp
