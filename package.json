@@ -10,10 +10,12 @@
     "check": "node --check src/m3-lighting-dashboard.js && node --check dist/lovelace-m3-lighting-dashboard.js",
     "test:dist": "node tests/validate-dist.mjs",
     "test:unit": "vitest run",
+    "test:coverage": "npm run test:dist && vitest run --coverage",
     "test": "npm run test:dist && npm run test:unit",
     "validate": "npm run build && npm run check && npm test"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^3.2.4",
     "jsdom": "^26.1.0",
     "vitest": "^3.2.4"
   }
