@@ -8,7 +8,13 @@
   "scripts": {
     "build": "node scripts/build_plugin.mjs",
     "check": "node --check src/m3-lighting-dashboard.js && node --check dist/lovelace-m3-lighting-dashboard.js",
-    "test": "node tests/validate-dist.mjs",
+    "test:dist": "node tests/validate-dist.mjs",
+    "test:unit": "vitest run",
+    "test": "npm run test:dist && npm run test:unit",
     "validate": "npm run build && npm run check && npm test"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "vitest": "^3.2.4"
   }
 }
