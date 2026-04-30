@@ -1,4 +1,4 @@
-<h1><a href="https://josephmienko.github.io/lovelace-m3-lighting-dashboard/">lovelace-m3-lighting-dashboard</a></h1>
+<h1 style="display: none;"><a href="https://josephmienko.github.io/lovelace-m3-lighting-dashboard/">lovelace-m3-lighting-dashboard</a></h1>
 <picture align="center">
   <!-- Desktop Dark Mode -->
   <source media="(min-width: 769px) and (prefers-color-scheme: dark)" srcset="assets/header-wide-dark-inline.svg">
@@ -19,71 +19,44 @@
   </span>
 </b>
 
-## Overview
+M3 lighting control dashboard composed with M3 core card primitives. Requires `lovelace-m3-core-cards` installed first for shared slider/button components.
 
-`lovelace-m3-lighting-dashboard` is the recommended extraction target for the lighting dashboard card that currently lives in this repo.
+## Configuration
 
-This repo ships one HACS dashboard/plugin artifact: `dist/lovelace-m3-lighting-dashboard.js`.
+### Installation Instructions
 
-## Dependency On Core Cards
+#### Step 1: Install Core Dependency
 
-This repo is intended to depend on `lovelace-m3-core-cards`.
-
-That dependency is explicit in the public contract:
-
-- users install `lovelace-m3-core-cards` first
-- the dashboard card expects `custom:m3-slider` to be available at runtime
-- the README and examples document the dependency
-
-HACS does not manage plugin-to-plugin dependencies for you, so the dependency has to be documented and enforced at runtime by the card itself.
-
-## Repo Layout
-
-```text
-lovelace-m3-lighting-dashboard/
-  .github/
-    workflows/
-      validate.yml
-  dist/
-    lovelace-m3-lighting-dashboard.js
-  examples/
-    dashboard-lights-snippet.yaml
-  scripts/
-    build_plugin.mjs
-  screenshots/
-  src/
-    m3-lighting-dashboard.js
-  tests/
-    validate-dist.mjs
-  .gitignore
-  README.md
-  hacs.json
-  package.json
-```
-
-## Included Card
-
-- `custom:m3-lighting-dashboard`
-
-## Installation
-
-### Step 1: Install Core Dependency
-
-Install `lovelace-m3-core-cards` first and make sure its resource is loaded:
+Install `lovelace-m3-core-cards` first and ensure its resource is loaded:
 
 ```text
 /hacsfiles/lovelace-m3-core-cards/lovelace-m3-core-cards.js
 ```
 
-### Step 2: Install This Dashboard Card
+#### Step 2: Install Dashboard Card
 
-Install `lovelace-m3-lighting-dashboard` and make sure its resource is loaded:
+For HACS:
 
-```text
-/hacsfiles/lovelace-m3-lighting-dashboard/lovelace-m3-lighting-dashboard.js
-```
+1. Add the repository to HACS as a `Dashboard`.
+2. Install `M3 Lighting Dashboard`.
+3. Add the resource if HACS does not do it automatically:
 
-### Step 3: Use The Card
+   ```text
+   /hacsfiles/lovelace-m3-lighting-dashboard/lovelace-m3-lighting-dashboard.js
+   ```
+
+For manual install:
+
+1. Copy `dist/lovelace-m3-lighting-dashboard.js` into your Home Assistant `www/` directory.
+2. Add it as a Lovelace module resource:
+
+   ```text
+   /local/lovelace-m3-lighting-dashboard.js
+   ```
+
+Ensure `lovelace-m3-core-cards` is also installed and loaded first.
+
+#### Step 3: Use The Card
 
 ```yaml
 type: custom:m3-lighting-dashboard
@@ -108,19 +81,7 @@ areas:
         icon: mdi:lamp
 ```
 
-## Manual Install
-
-1. Copy `dist/lovelace-m3-lighting-dashboard.js` into your Home Assistant `www/` directory.
-2. Add it as a Lovelace module resource:
-
-   ```text
-   /local/lovelace-m3-lighting-dashboard.js
-   ```
-
-3. Ensure `lovelace-m3-core-cards` is also installed and loaded first.
-4. Use the card in Lovelace.
-
-## Maintainer Workflow
+### Maintainer Workflow
 
 1. Edit `src/m3-lighting-dashboard.js`.
 2. Rebuild the install artifact:
@@ -140,38 +101,9 @@ areas:
 
 The CI workflow fails if the built artifact is out of date.
 
-## Packaging Rules
+### Design Notes
 
-- `dist/` contains only installable runtime artifacts.
-- `examples/` contains copy/paste Lovelace snippets only.
-- `screenshots/` is for README assets only.
-- Public examples should avoid private icon dependencies. Use stock `mdi:` icons unless the icon pack is explicitly part of the public install story.
-- If this repo ever becomes hard to operate with an external dependency, bundle the needed core primitives into the artifact instead of creating more documented dependency steps.
-
-## Recommended Public Rename
-
-Recommended public rename for the extracted card:
-
-- `crooked-sentry-m3-lighting-dashboard` -> `m3-lighting-dashboard`
-
-That applies to:
-
-- the custom element tag
-- `window.customCards` type name
-- examples
-- README docs
-
-## Extraction Mapping
-
-Current source file in this monorepo maps to the extracted repo like this:
-
-- `homeassistant/www/community/crooked-sentry-m3-lighting-dashboard/crooked-sentry-m3-lighting-dashboard.js` -> `src/m3-lighting-dashboard.js`
-
-The current implementation already embeds slider instances and is a good fit for a separate repo that consumes `lovelace-m3-core-cards`.
-
-## Notes
-
-- This template now carries the current extracted implementation with the public `m3-lighting-dashboard` tag already applied.
-- The card renders an explicit dependency error if `lovelace-m3-core-cards` has not been loaded yet.
-- Public defaults and examples use `mdi:` icons, but the implementation still tolerates external `m3*` icon names if users already have those icon sets registered.
-- The dependency on `lovelace-m3-core-cards` should remain explicit unless you later decide to bundle the slider implementation.
+- The dashboard expects `custom:m3-slider` to be available at runtime
+- If core cards are not loaded, the card renders an explicit dependency error
+- HACS does not manage card-to-card dependencies, so documentation and runtime enforcement are both needed
+- Public examples and defaults use `mdi:` icons
